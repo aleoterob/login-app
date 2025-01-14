@@ -46,8 +46,8 @@ const ResetPasswordPage = () => {
           {/* Si el token es válido, mostramos el formulario de restablecimiento de contraseña */}
           {isValidToken && <ResetPasswordForm />}
         </div>
-        <p>sssssssssssssssssssssssssssssssssss</p>
       </div>
+      <p className="text-white text-center mb-4">Token recibido: {token}</p>
     </div>
   );
 };
