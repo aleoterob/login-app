@@ -19,20 +19,15 @@ const ResetPasswordPage = () => {
       // Por ahora, asumimos que el token es válido
       setIsValidToken(true);
     }
+
+    if (isValidToken) {
+      console.log("Token recibido:", token);
+    } else {
+      console.log("Token no válido o no proporcionado.");
+    }
   }, [pathname]);
 
-  return (
-    <div>
-      <h1>Reset Password</h1>
-      {isValidToken ? (
-        <p>Token recibido: {token}</p>
-      ) : (
-        <p>Token no válido o no proporcionado.</p>
-      )}
-      {/* Aquí puedes incluir tu lógica de restablecimiento */}
-      <ResetPasswordForm />
-    </div>
-  );
+  return <ResetPasswordForm />;
 };
 
 export default ResetPasswordPage;
