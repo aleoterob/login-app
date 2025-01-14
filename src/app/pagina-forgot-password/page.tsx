@@ -1,3 +1,4 @@
+"use client";
 // pages/reset-password.tsx
 import { useState } from "react";
 import ForgotPasswordForm from "../components/ForgotPasswordForm";

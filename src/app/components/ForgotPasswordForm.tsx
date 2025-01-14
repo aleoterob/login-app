@@ -1,3 +1,4 @@
+"use client";
 // components/ForgotPasswordForm.tsx
 import { FC, useState } from "react";
 
