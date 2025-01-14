@@ -13,6 +13,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [isPasswordReset, setIsPasswordReset] = useState(false); // Estado para saber si la contraseña fue reseteada
 
   const router = useRouter(); // Inicializa el hook useRouter para redirigir
 
@@ -55,6 +56,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
       setError("Error al actualizar la contraseña: " + error.message);
     } else {
       setMessage("Contraseña actualizada correctamente.");
+      setIsPasswordReset(true); // Cambia el estado para mostrar el botón de logearse
     }
   };
 
@@ -73,50 +75,54 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
         {error && <p className="text-red-500 text-center">{error}</p>}
         {message && <p className="text-green-500 text-center">{message}</p>}
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="password1" className="sr-only">
-              Nueva contraseña
-            </label>
-            <input
-              id="password1"
-              type={passwordType1}
-              value={password1}
-              onChange={(e) => handleInputChange1(e.target.value)}
-              placeholder="Nueva contraseña"
-              className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password2" className="sr-only">
-              Repita contraseña
-            </label>
-            <input
-              id="password2"
-              type={passwordType2}
-              value={password2}
-              onChange={(e) => handleInputChange2(e.target.value)}
-              placeholder="Repita contraseña"
-              className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 text-lg font-semibold text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
-          >
-            Enviar
-          </button>
-        </form>
+        {!isPasswordReset && (
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="password1" className="sr-only">
+                Nueva contraseña
+              </label>
+              <input
+                id="password1"
+                type={passwordType1}
+                value={password1}
+                onChange={(e) => handleInputChange1(e.target.value)}
+                placeholder="Nueva contraseña"
+                className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password2" className="sr-only">
+                Repita contraseña
+              </label>
+              <input
+                id="password2"
+                type={passwordType2}
+                value={password2}
+                onChange={(e) => handleInputChange2(e.target.value)}
+                placeholder="Repita contraseña"
+                className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 text-lg font-semibold text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
+            >
+              Enviar
+            </button>
+          </form>
+        )}
 
-        {/* Botón para redirigir a la home */}
-        <button
-          onClick={handleRedirect}
-          className="mt-4 w-full py-2 text-lg font-semibold text-white bg-gray-600 hover:bg-gray-700 rounded shadow"
-        >
-          Logearse
-        </button>
+        {/* Botón para redirigir a la home, aparece solo si la contraseña fue reseteada */}
+        {isPasswordReset && (
+          <button
+            onClick={handleRedirect}
+            className="mt-4 w-full py-2 text-lg font-semibold text-white bg-gray-600 hover:bg-gray-700 rounded shadow"
+          >
+            Logearse
+          </button>
+        )}
       </div>
     </div>
   );
