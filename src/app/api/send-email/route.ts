@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(
-      { message: "Correo enviado correctamente" },
+      { message: "Correo enviado correctamente." },
       { status: 200 }
     );
   } catch (error) {
