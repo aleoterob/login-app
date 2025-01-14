@@ -87,7 +87,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
                 value={password1}
                 onChange={(e) => handleInputChange1(e.target.value)}
                 placeholder="Nueva contraseña"
-                className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+                className="w-full px-3 py-2 bg-white/70 border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
                 required
               />
             </div>
@@ -101,7 +101,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
                 value={password2}
                 onChange={(e) => handleInputChange2(e.target.value)}
                 placeholder="Repita contraseña"
-                className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+                className="w-full px-3 py-2 bg-white/70 border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
                 required
               />
             </div>
