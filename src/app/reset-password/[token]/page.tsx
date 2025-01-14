@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ResetPasswordPage = () => {
-  const router = useRouter();
-  const { token } = router.query;
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
   const [isValidToken, setIsValidToken] = useState(false);
 
   useEffect(() => {
