@@ -1,19 +1,24 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const ResetPasswordPage = () => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+  const pathname = usePathname();
+  const [token, setToken] = useState<string | null>(null);
   const [isValidToken, setIsValidToken] = useState(false);
 
   useEffect(() => {
-    if (token) {
-      // Aquí puedes agregar la lógica para validar el token
-      setIsValidToken(true); // Suponiendo que el token es válido
+    const pathSegments = pathname.split("/");
+    const tokenFromPath = pathSegments[pathSegments.length - 1];
+    if (tokenFromPath) {
+      setToken(tokenFromPath);
+
+      // Aquí puedes agregar la lógica para validar el token con el backend
+      // Por ahora, asumimos que el token es válido
+      setIsValidToken(true);
     }
-  }, [token]);
+  }, [pathname]);
 
   return (
     <div>
