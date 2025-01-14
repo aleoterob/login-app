@@ -1,15 +1,17 @@
-"use client";
-import { FC, useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importar los íconos
-import supabase from "../lib/supabaseClient"; // Importar el cliente de supabase
+import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
-const ForgotPasswordForm: FC = () => {
-  const [passwordType1, setPasswordType1] = useState("password");
-  const [passwordType2, setPasswordType2] = useState("password");
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+const ResetPasswordForm = () => {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
-  const [error, setError] = useState<string>(""); // Para manejar errores
-  const [loading, setLoading] = useState<boolean>(false); // Para mostrar el estado de carga
+  const [passwordType1, setPasswordType1] = useState("password");
+  const [passwordType2, setPasswordType2] = useState("password");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange1 = (value: string) => {
     setPassword1(value);
@@ -44,90 +46,55 @@ const ForgotPasswordForm: FC = () => {
           .update({ password: password1 }) // Suponiendo que ya tienes el hash del password
           .eq("id", user.id); // Asegúrate de que el campo id sea correcto
 
-        if (error) throw error;
-        console.log("Contraseña actualizada:", data);
+        if (error) {
+          setError("Error al actualizar la contraseña");
+        } else {
+          setError(null);
+          // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
+        }
       } else {
-        setError("No se encontró el usuario.");
+        setError("Usuario no autenticado");
       }
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err) {
+      console.error("Error al actualizar la contraseña:", err);
+      setError("Ocurrió un error inesperado");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[url('https://www.magic4walls.com/wp-content/uploads/2014/01/texture-blue-fonchik-simple-dark-colors-glow-background.jpg')] bg-cover">
-      <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
-        <h2 className="text-center text-white text-2xl font-semibold mb-6">
-          Ingrese su nueva contraseña
-        </h2>
-
-        <form onSubmit={handleSubmit}>
-          {error && <div className="text-red-500 mb-4">{error}</div>}
-
-          <div className="mb-4 relative">
-            <label htmlFor="password1" className="sr-only">
-              Nueva contraseña
-            </label>
-            <input
-              id="password1"
-              type={passwordType1}
-              value={password1}
-              onChange={(e) => handleInputChange1(e.target.value)}
-              placeholder="Nueva contraseña"
-              className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
-              required
-            />
-            {/* Ícono para mostrar/ocultar contraseña */}
-            <span
-              onClick={togglePasswordVisibility1}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-            >
-              {passwordType1 === "password" ? (
-                <AiOutlineEyeInvisible className="text-white" />
-              ) : (
-                <AiOutlineEye className="text-white" />
-              )}
-            </span>
-          </div>
-          <div className="mb-4 relative">
-            <label htmlFor="password2" className="sr-only">
-              Repita contraseña
-            </label>
-            <input
-              id="password2"
-              type={passwordType2}
-              value={password2}
-              onChange={(e) => handleInputChange2(e.target.value)}
-              placeholder="Repita contraseña"
-              className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
-              required
-            />
-            {/* Ícono para mostrar/ocultar contraseña */}
-            <span
-              onClick={togglePasswordVisibility2}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-            >
-              {passwordType2 === "password" ? (
-                <AiOutlineEyeInvisible className="text-white" />
-              ) : (
-                <AiOutlineEye className="text-white" />
-              )}
-            </span>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2 text-lg font-semibold text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
-          >
-            {loading ? "Cargando..." : "Enviar"}
-          </button>
-        </form>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="password1">Nueva contraseña</label>
+        <input
+          type={passwordType1}
+          id="password1"
+          value={password1}
+          onChange={(e) => handleInputChange1(e.target.value)}
+        />
+        <button type="button" onClick={togglePasswordVisibility1}>
+          {passwordType1 === "password" ? "Mostrar" : "Ocultar"}
+        </button>
       </div>
-    </div>
+      <div>
+        <label htmlFor="password2">Confirmar nueva contraseña</label>
+        <input
+          type={passwordType2}
+          id="password2"
+          value={password2}
+          onChange={(e) => handleInputChange2(e.target.value)}
+        />
+        <button type="button" onClick={togglePasswordVisibility2}>
+          {passwordType2 === "password" ? "Mostrar" : "Ocultar"}
+        </button>
+      </div>
+      {error && <p>{error}</p>}
+      <button type="submit" disabled={loading}>
+        {loading ? "Actualizando..." : "Actualizar contraseña"}
+      </button>
+    </form>
   );
 };
 
-export default ForgotPasswordForm;
+export default ResetPasswordForm;
