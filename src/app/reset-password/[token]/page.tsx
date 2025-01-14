@@ -7,8 +7,7 @@ import { decryptToken } from "../../lib/bcryptUtils"; // Importamos la función 
 
 const ResetPasswordPage = () => {
   const pathname = usePathname();
-  const [token, setToken] = useState<string | null>(null);
-  const [decryptedToken, setDecryptedToken] = useState<string | null>(null); // Nuevo estado para el token desencriptado
+  const [decryptedToken, setDecryptedToken] = useState<string | null>(null); // Solo usamos el estado para el token desencriptado
   const [isValidToken, setIsValidToken] = useState(false);
   const [message, setMessage] = useState<string>("");
 
@@ -17,8 +16,6 @@ const ResetPasswordPage = () => {
     const tokenFromPath = pathSegments[pathSegments.length - 1];
 
     if (tokenFromPath) {
-      setToken(tokenFromPath); // Guardamos el token recibido de la URL
-
       // Desencriptamos el token usando la función decryptToken
       const decrypted = decryptToken(tokenFromPath);
       if (decrypted) {
