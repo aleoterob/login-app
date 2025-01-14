@@ -142,18 +142,6 @@ const LoginForm: FC = () => {
               </form>
             )}
 
-            {isAuthenticated && (
-              <div>
-                <button
-                  onClick={handleLogout}
-                  type="button"
-                  className="w-full py-2 text-lg font-semibold text-white bg-red-500 hover:bg-red-600 rounded shadow mt-2"
-                >
-                  <i className="fa fa-sign-out"></i> Logout
-                </button>
-              </div>
-            )}
-
             <div className="flex items-center justify-between mt-4 text-white text-sm">
               <label className="flex items-center">
                 <input
