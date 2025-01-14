@@ -36,7 +36,7 @@ const ResetPasswordPage = () => {
     >
       {/* Contenido de la página */}
       <div className="relative z-10 flex justify-center items-center w-full h-full">
-        <ResetPasswordForm />
+        <ResetPasswordForm email="example@example.com" />
       </div>
     </div>
   );
