@@ -5,7 +5,11 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const ResetPasswordForm = () => {
+interface ResetPasswordFormProps {
+  email: string;
+}
+
+const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ email }) => {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [passwordType1, setPasswordType1] = useState("password");
@@ -38,31 +42,16 @@ const ResetPasswordForm = () => {
 
     setLoading(true);
     try {
-      // Obtener usuario actual (asumimos que el usuario está autenticado)
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
-      if (userError) {
-        setError("Error al obtener el usuario");
-        setLoading(false);
-        return;
-      }
+      const { error } = await supabase
+        .from("usuarios")
+        .update({ password: password1 })
+        .eq("email", email);
 
-      if (user) {
-        const { error } = await supabase
-          .from("usuarios") // Reemplaza con el nombre de tu tabla
-          .update({ password: password1 }) // Suponiendo que ya tienes el hash del password
-          .eq("id", user.id); // Asegúrate de que el campo id sea correcto
-
-        if (error) {
-          setError("Error al actualizar la contraseña");
-        } else {
-          setError(null);
-          // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
-        }
+      if (error) {
+        setError("Error al actualizar la contraseña");
       } else {
-        setError("Usuario no autenticado");
+        setError(null);
+        // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
       }
     } catch (err) {
       console.error("Error al actualizar la contraseña:", err);
