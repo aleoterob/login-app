@@ -19,7 +19,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
     e.preventDefault();
 
     try {
-      // Encriptar el correo antes de enviarlo
+      // Encriptar el correo antes de enviarlo, pero solo para generar el token
       const encryptedEmail = encryptEmail(emailState);
 
       const response = await fetch("../api/send-email", {
@@ -27,7 +27,8 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: encryptedEmail }), // Enviar el correo encriptado
+        // Enviar el correo en texto claro
+        body: JSON.stringify({ email: emailState }), // Enviar el correo en texto plano
       });
 
       if (response.ok) {
@@ -67,7 +68,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
                 id="txtUser"
                 type="email"
                 name="email"
-                placeholder="Emaill"
+                placeholder="Email"
                 value={emailState}
                 onChange={(e) => setEmailState(e.target.value)}
                 className="w-full px-3 py-2 bg-transparent border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"

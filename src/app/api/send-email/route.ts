@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { encryptEmail } from "../../lib/bcryptUtils"; // Importar la función para encriptar el email
+import crypto from "crypto";
 
 export async function POST(req: NextRequest) {
   const { email } = await req.json();
@@ -13,13 +13,16 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Encriptar el correo usando la función encryptEmail
-    const encryptedEmail = encryptEmail(email);
+    // Generar un token único
+    const token = crypto.randomBytes(32).toString("hex");
 
-    // URL de restablecimiento de contraseña con el correo encriptado como token
-    const resetUrl = `https://login-app-sigma-navy.vercel.app/reset-password/${encryptedEmail}`;
+    // Aquí puedes guardar el token en tu base de datos, asociado al correo (opcional)
+    // await saveTokenToDatabase(email, token);
 
-    // Configurar transporte de correo
+    // Crear la URL de restablecimiento
+    const resetUrl = `https://login-app-sigma-navy.vercel.app/reset-password/${token}`;
+
+    // Configurar el transporte de correo
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -28,10 +31,10 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Enviar el correo electrónico
+    // Enviar el correo electrónico al usuario con la URL de restablecimiento
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: email,
+      to: email, // Usar el correo en texto claro aquí
       subject: "Restablecer contraseña",
       text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetUrl}`,
       html: `
