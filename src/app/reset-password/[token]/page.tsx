@@ -3,7 +3,7 @@
 import ResetPasswordForm from "../../components/ResetPasswordForm";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { decryptEmail } from "../../lib/decryptUtils"; // Asegúrate de importar la función correctamente
+import { decryptEmail } from "../../lib/bcryptUtils"; // Asegúrate de importar la función correctamente
 
 const ResetPasswordPage = () => {
   const pathname = usePathname();
