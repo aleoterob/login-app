@@ -118,7 +118,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
         {isPasswordReset && (
           <button
             onClick={handleRedirect}
-            className="mt-4 w-full py-2 text-lg font-semibold text-white bg-gray-600 hover:bg-gray-700 rounded shadow"
+            className="mt-4 w-full py-2 text-lg font-semibold text-white bg-verdeAle/50 hover:bg-verdeAle/75 rounded shadow"
           >
             Logearse
           </button>

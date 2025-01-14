@@ -18,7 +18,7 @@ const BotonDeslogear: FC = () => {
   return (
     <button
       onClick={handleLogout}
-      className="py-2 px-4 bg-red-500 text-white rounded shadow hover:bg-red-600"
+      className="py-2 px-4 bg-verdeAle/50 hover:bg-verdeAle/75 text-white rounded shadow text-2xl"
     >
       Logout
     </button>

@@ -78,7 +78,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
           </div>
           <button
             type="submit"
-            className="w-full py-2 text-lg font-semibold text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
+            className="w-full py-2 text-lg font-semibold text-white bg-verdeAle/50 hover:bg-verdeAle/75 rounded shadow"
           >
             Enviar
           </button>
