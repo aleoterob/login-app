@@ -1,5 +1,6 @@
 "use client";
 import { FC, useState } from "react";
+import { useRouter } from "next/navigation"; // Importa useRouter para la redirección
 import supabase from "../../app/lib/supabaseClient"; // Importa el cliente de Supabase
 import { encryptPassword } from "../../app/lib/bcryptUtils"; // Importa la función para cifrar la contraseña
 
@@ -12,6 +13,8 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+
+  const router = useRouter(); // Inicializa el hook useRouter para redirigir
 
   const handleInputChange1 = (value: string) => {
     setPassword1(value);
@@ -53,6 +56,11 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
     } else {
       setMessage("Contraseña actualizada correctamente.");
     }
+  };
+
+  // Función para redirigir a la home
+  const handleRedirect = () => {
+    router.push("/"); // Redirige a la página principal
   };
 
   return (
@@ -101,6 +109,14 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
             Enviar
           </button>
         </form>
+
+        {/* Botón para redirigir a la home */}
+        <button
+          onClick={handleRedirect}
+          className="mt-4 w-full py-2 text-lg font-semibold text-white bg-gray-600 hover:bg-gray-700 rounded shadow"
+        >
+          Logearse
+        </button>
       </div>
     </div>
   );
