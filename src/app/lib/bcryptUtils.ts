@@ -12,3 +12,13 @@ export const comparePassword = (
 ): boolean => {
   return bcrypt.compareSync(password, hashedPassword);
 };
+
+// Función para encriptar el correo (similar a la encriptación de contraseñas)
+export const encryptEmail = (email: string): string => {
+  return bcrypt.hashSync(email, 10);
+};
+
+// Función para verificar si el correo ingresado coincide con el encriptado
+export const compareEmail = (email: string, hashedEmail: string): boolean => {
+  return bcrypt.compareSync(email, hashedEmail);
+};
