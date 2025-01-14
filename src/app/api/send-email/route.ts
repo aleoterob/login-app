@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     // await saveTokenToDatabase(email, token);
 
     // URL de restablecimiento de contraseña
-    const resetUrl = `https://login-app-sigma-navy.vercel.app/app/reset-password/${token}`;
+    const resetUrl = `https://login-app-sigma-navy.vercel.app/reset-password/${token}`;
 
     // Configurar transporte de correo
     const transporter = nodemailer.createTransport({
