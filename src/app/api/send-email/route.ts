@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import crypto from "crypto";
+import { encryptEmail } from "../../lib/bcryptUtils"; // Importar la función para encriptar el email
 
 export async function POST(req: NextRequest) {
   const { email } = await req.json();
@@ -13,15 +13,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const token = crypto.randomBytes(32).toString("hex");
+    // Encriptar el correo usando la función encryptEmail
+    const encryptedEmail = encryptEmail(email);
 
-    // Guardar el token en la base de datos o almacenamiento asociado al correo (opcional)
-    // Aquí debes agregar tu lógica para almacenar el token junto con el correo
-    // Por ejemplo:
-    // await saveTokenToDatabase(email, token);
-
-    // URL de restablecimiento de contraseña
-    const resetUrl = `https://login-app-sigma-navy.vercel.app/reset-password/${token}`;
+    // URL de restablecimiento de contraseña con el correo encriptado como token
+    const resetUrl = `https://login-app-sigma-navy.vercel.app/reset-password/${encryptedEmail}`;
 
     // Configurar transporte de correo
     const transporter = nodemailer.createTransport({

@@ -1,7 +1,7 @@
 // components/ForgotPasswordForm.tsx
 "use client";
 import { FC, useState } from "react";
-// import { encryptEmail } from "../lib/bcryptUtils"; // Asegúrate de importar la función
+import { encryptEmail } from "../lib/bcryptUtils"; // Asegúrate de importar la función
 
 interface ForgotPasswordFormProps {
   setEmail: (email: string) => void;
@@ -19,13 +19,15 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
     e.preventDefault();
 
     try {
-      // Enviar el correo tal como lo ingresa el usuario
+      // Encriptar el correo antes de enviarlo
+      const encryptedEmail = encryptEmail(emailState);
+
       const response = await fetch("../api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: emailState }), // Enviar el correo sin encriptar
+        body: JSON.stringify({ email: encryptedEmail }), // Enviar el correo encriptado
       });
 
       if (response.ok) {
@@ -65,7 +67,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
                 id="txtUser"
                 type="email"
                 name="email"
-                placeholder="Email"
+                placeholder="Emaill"
                 value={emailState}
                 onChange={(e) => setEmailState(e.target.value)}
                 className="w-full px-3 py-2 bg-transparent border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
