@@ -18,7 +18,7 @@ const ForgotPasswordPage = () => {
       {/* Formulario de Olvidó Contraseña o Restablecer Contraseña */}
       <div className="relative z-10">
         {!email ? (
-          <ForgotPasswordForm setEmail={setEmail} />
+          <ForgotPasswordForm setEmail={setEmail} setEmailSent={() => {}} />
         ) : (
           <ResetPasswordForm email={email} />
         )}
