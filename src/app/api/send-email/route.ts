@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import crypto from "crypto";
+import { encryptEmail } from "../../lib/bcryptUtils"; // Asegúrate de importar la función
 
 export async function POST(req: Request) {
   try {
-    const { email, encryptedEmail } = await req.json();
+    const { email } = await req.json(); // Recibimos el correo del usuario desde la solicitud
 
+    // Validamos el correo electrónico
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json(
         { message: "El correo es requerido o no es válido" },
@@ -13,17 +14,16 @@ export async function POST(req: Request) {
       );
     }
 
-    // Generar un token único
+    // Encriptar el correo electrónico
+    const encryptedEmail = encryptEmail(email);
+
+    // Crear un token único (por ejemplo, utilizando un identificador único o un valor aleatorio)
     const token = crypto.randomBytes(32).toString("hex");
 
-    // Crear la URL de restablecimiento
-    const resetUrl = `https://login-app-sigma-navy.vercel.app/reset-password/${token}`;
+    // Crear la URL de restablecimiento con el correo encriptado
+    const resetUrl = `https://login-app-sigma-navy.vercel.app/reset-password/${encryptedEmail}`;
 
-    // (Opcional) Guardar el correo encriptado en la base de datos
-    console.log("Correo original:", email);
-    console.log("Correo encriptado:", encryptedEmail);
-
-    // Configurar el transporte de correo
+    // Configurar el transporte de correo (usando Nodemailer)
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     console.log("EMAIL_USER:", process.env.EMAIL_USER);
     console.log("Email destinatario:", email);
 
-    // Enviar el correo electrónico
+    // Enviar el correo electrónico con el enlace de restablecimiento
     const info = await transporter.sendMail({
       from: `"Soporte Login App" <${process.env.EMAIL_USER}>`,
       to: email,
