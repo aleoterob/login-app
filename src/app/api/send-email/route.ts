@@ -1,19 +1,22 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 
-export async function POST(req: NextRequest) {
-  const { email } = await req.json(); // Obtiene el email de la solicitud
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Método no permitido" });
+  }
+
+  const { email } = req.body;
 
   if (!email) {
-    return NextResponse.json(
-      { message: "El correo es requerido" },
-      { status: 400 }
-    );
+    return res.status(400).json({ message: "El correo es requerido" });
   }
 
   try {
-    // Generar un token único
     const token = crypto.randomBytes(32).toString("hex");
 
     // Guardar el token en la base de datos o almacenamiento asociado al correo (opcional)
@@ -45,12 +48,9 @@ export async function POST(req: NextRequest) {
       `,
     });
 
-    return NextResponse.json({ message: "Correo enviado exitosamente" });
+    return res.status(200).json({ message: "Correo enviado correctamente" });
   } catch (error) {
     console.error("Error enviando correo:", error);
-    return NextResponse.json(
-      { message: "Hubo un problema enviando el correo. Inténtalo de nuevo." },
-      { status: 500 }
-    );
+    return res.status(500).json({ message: "Error enviando correo" });
   }
 }
