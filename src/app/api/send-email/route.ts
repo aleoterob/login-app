@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     const encryptedEmail = encryptEmail(email);
 
     // Crear un token único (por ejemplo, utilizando un identificador único o un valor aleatorio)
-    const token = crypto.randomBytes(32).toString("hex");
+    // const token = crypto.randomBytes(32).toString("hex");
 
     // Crear la URL de restablecimiento con el correo encriptado
     const resetUrl = `https://login-app-sigma-navy.vercel.app/reset-password/${encryptedEmail}`;

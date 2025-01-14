@@ -2,8 +2,8 @@ import crypto from "crypto";
 import bcrypt from "bcryptjs";
 
 // Asegúrate de que las variables de entorno no sean undefined
-const AES_KEY = process.env.AES_KEY;
-const AES_IV = process.env.AES_IV;
+const AES_KEY = process.env.NEXT_PUBLIC_AES_KEY;
+const AES_IV = process.env.NEXT_PUBLIC_AES_IV;
 
 if (!AES_KEY || !AES_IV) {
   throw new Error(
