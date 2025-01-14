@@ -1,24 +1,16 @@
-import bcrypt from "bcryptjs";
+import CryptoJS from "crypto-js";
 
-// Función para encriptar el password
-export const encryptPassword = (password: string): string => {
-  return bcrypt.hashSync(password, 10);
+// Clave secreta para cifrado y descifrado (debería ser algo seguro y no compartido)
+const SECRET_KEY = "mi_clave_secreta_que_deberia_ser_segura";
+
+// Función para cifrar un token (AES)
+export const encryptToken = (token: string): string => {
+  return CryptoJS.AES.encrypt(token, SECRET_KEY).toString();
 };
 
-// Función para comparar el password con el hash almacenado
-export const comparePassword = (
-  password: string,
-  hashedPassword: string
-): boolean => {
-  return bcrypt.compareSync(password, hashedPassword);
-};
-
-// Función para encriptar el correo (similar a la encriptación de contraseñas)
-export const encryptEmail = (email: string): string => {
-  return bcrypt.hashSync(email, 10);
-};
-
-// Función para verificar si el correo ingresado coincide con el encriptado
-export const compareEmail = (email: string, hashedEmail: string): boolean => {
-  return bcrypt.compareSync(email, hashedEmail);
+// Función para descifrar un token (AES)
+export const decryptToken = (encryptedToken: string): string | null => {
+  const bytes = CryptoJS.AES.decrypt(encryptedToken, SECRET_KEY);
+  const originalToken = bytes.toString(CryptoJS.enc.Utf8);
+  return originalToken ? originalToken : null;
 };

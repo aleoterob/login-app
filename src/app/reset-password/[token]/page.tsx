@@ -3,10 +3,12 @@
 import ResetPasswordForm from "../../components/ResetPasswordForm";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { decryptToken } from "../../lib/bcryptUtils"; // Importar función para descifrar el token
 
 const ResetPasswordPage = () => {
   const pathname = usePathname();
   const [token, setToken] = useState<string | null>(null);
+  const [decryptedToken, setDecryptedToken] = useState<string | null>(null);
   const [isValidToken, setIsValidToken] = useState(false);
   const [message, setMessage] = useState<string>("");
 
@@ -16,8 +18,18 @@ const ResetPasswordPage = () => {
 
     if (tokenFromPath) {
       setToken(tokenFromPath); // Guardamos el token recibido de la URL
-      setIsValidToken(true);
-      setMessage("Token recibido correctamente.");
+
+      // Usamos la función para descifrar el token
+      const decrypted = decryptToken(tokenFromPath);
+
+      if (decrypted) {
+        setDecryptedToken(decrypted); // Mostramos el token original
+        setIsValidToken(true);
+        setMessage("Token válido. Puedes restablecer tu contraseña.");
+      } else {
+        setIsValidToken(false);
+        setMessage("Token no válido o expirado.");
+      }
     } else {
       setMessage("No se proporcionó un token.");
     }
@@ -36,10 +48,6 @@ const ResetPasswordPage = () => {
       {/* Contenido de la página */}
       <div className="relative z-10 flex justify-center items-center w-full h-full">
         <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
-          {/* Mostrar el token tal cual en pantalla */}
-
-          <p className="text-white text-center mb-4">Token recibido: {token}</p>
-
           {/* Mostrar el mensaje de validación */}
           {message && <p className="text-white text-center mb-4">{message}</p>}
 
@@ -47,7 +55,13 @@ const ResetPasswordPage = () => {
           {isValidToken && <ResetPasswordForm />}
         </div>
       </div>
-      <p className="text-white text-center mb-4">Token recibido: {token}</p>
+
+      {/* Mostrar el token desencriptado en pantalla */}
+      {decryptedToken && (
+        <p className="text-white text-center mb-4">
+          Token desencriptado: {decryptedToken}
+        </p>
+      )}
     </div>
   );
 };
