@@ -16,7 +16,7 @@ const LoginForm: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [showSignUp, setShowSignUp] = useState(false); // Estado para mostrar el formulario de registro
+  const [showSignUp] = useState(false); // Estado para mostrar el formulario de registro
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const router = useRouter();
