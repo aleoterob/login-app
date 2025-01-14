@@ -1,5 +1,6 @@
 "use client";
 
+import ForgotPasswordForm from "../../components/ForgotPasswordForm";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -29,6 +30,7 @@ const ResetPasswordPage = () => {
         <p>Token no válido o no proporcionado.</p>
       )}
       {/* Aquí puedes incluir tu lógica de restablecimiento */}
+      <ForgotPasswordForm />
     </div>
   );
 };
