@@ -45,12 +45,12 @@ const ResetPasswordPage = () => {
         <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
           {message && <p className="text-white text-center mb-4">{message}</p>}
 
-          {/* Mostrar el correo desencriptado */}
+          {/* Mostrar el correo desencriptado
           {decryptedEmail && (
             <p className="text-white text-center mb-4">
               Correo desencriptado: {decryptedEmail}
             </p>
-          )}
+          )} */}
 
           {isValidEmail && decryptedEmail && (
             <ResetPasswordForm decryptedEmail={decryptedEmail} />
