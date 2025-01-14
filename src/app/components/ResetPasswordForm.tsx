@@ -1,11 +1,17 @@
 "use client";
 import { FC, useState } from "react";
+import supabase from "../../app/lib/supabaseClient"; // Importa el cliente de Supabase
+import { encryptPassword } from "../../app/lib/bcryptUtils"; // Importa la función para cifrar la contraseña
 
-const ForgotPasswordForm: FC = () => {
+const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
+  decryptedEmail,
+}) => {
   const [passwordType1, setPasswordType1] = useState("text");
   const [passwordType2, setPasswordType2] = useState("text");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   const handleInputChange1 = (value: string) => {
     setPassword1(value);
@@ -27,9 +33,26 @@ const ForgotPasswordForm: FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Nueva contraseña:", password1);
-    console.log("Repetir contraseña:", password2);
-    // Aquí puedes agregar la lógica para enviar los datos al backend
+
+    if (password1 !== password2) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+
+    // Cifrar la nueva contraseña
+    const encryptedPassword = await encryptPassword(password1);
+
+    // Actualizar la contraseña en la base de datos de Supabase
+    const { error } = await supabase
+      .from("usuarios")
+      .update({ password: encryptedPassword })
+      .eq("email", decryptedEmail); // Busca por el correo desencriptado
+
+    if (error) {
+      setError("Error al actualizar la contraseña: " + error.message);
+    } else {
+      setMessage("Contraseña actualizada correctamente.");
+    }
   };
 
   return (
@@ -38,6 +61,9 @@ const ForgotPasswordForm: FC = () => {
         <h2 className="text-center text-white text-2xl font-semibold mb-6">
           Ingrese su nueva contraseña
         </h2>
+
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        {message && <p className="text-green-500 text-center">{message}</p>}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -80,4 +106,4 @@ const ForgotPasswordForm: FC = () => {
   );
 };
 
-export default ForgotPasswordForm;
+export default ResetPasswordForm;

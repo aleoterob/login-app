@@ -66,3 +66,10 @@ export const comparePassword = async (
 ): Promise<boolean> => {
   return await bcrypt.compare(password, hashedPassword);
 };
+
+// Función para cifrar la contraseña usando bcrypt
+export const encryptPassword = async (password: string): Promise<string> => {
+  const salt = await bcrypt.genSalt(10); // Generar un salt
+  const hashedPassword = await bcrypt.hash(password, salt); // Cifrar la contraseña
+  return hashedPassword;
+};

@@ -52,7 +52,9 @@ const ResetPasswordPage = () => {
             </p>
           )}
 
-          {isValidEmail && <ResetPasswordForm />}
+          {isValidEmail && decryptedEmail && (
+            <ResetPasswordForm decryptedEmail={decryptedEmail} />
+          )}
         </div>
       </div>
     </div>
