@@ -1,6 +1,6 @@
 "use client";
 
-import ResetPasswordForm from "../components/ResetPasswordForm";
+import ResetPasswordForm from "../../components/ResetPasswordForm";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
