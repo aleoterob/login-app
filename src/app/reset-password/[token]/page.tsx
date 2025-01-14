@@ -37,11 +37,8 @@ const ResetPasswordPage = () => {
       <div className="relative z-10 flex justify-center items-center w-full h-full">
         <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
           {/* Mostrar el token tal cual en pantalla */}
-          {token && (
-            <p className="text-white text-center mb-4">
-              Token recibido: {token}
-            </p>
-          )}
+
+          <p className="text-white text-center mb-4">Token recibido: {token}</p>
 
           {/* Mostrar el mensaje de validación */}
           {message && <p className="text-white text-center mb-4">{message}</p>}
