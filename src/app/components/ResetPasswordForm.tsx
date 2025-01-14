@@ -1,12 +1,15 @@
 "use client";
 import { FC, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importar los íconos
+import supabase from "../supabaseClient"; // Importar el cliente de supabase
 
 const ForgotPasswordForm: FC = () => {
   const [passwordType1, setPasswordType1] = useState("password");
   const [passwordType2, setPasswordType2] = useState("password");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [error, setError] = useState<string>(""); // Para manejar errores
+  const [loading, setLoading] = useState<boolean>(false); // Para mostrar el estado de carga
 
   const handleInputChange1 = (value: string) => {
     setPassword1(value);
@@ -26,9 +29,31 @@ const ForgotPasswordForm: FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Nueva contraseña:", password1);
-    console.log("Repetir contraseña:", password2);
-    // Aquí puedes agregar la lógica para enviar los datos al backend
+    if (password1 !== password2) {
+      setError("Las contraseñas no coinciden");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Actualizar el password en Supabase
+      const user = supabase.auth.user(); // Obtener usuario actual (asumimos que el usuario está autenticado)
+      if (user) {
+        const { data, error } = await supabase
+          .from("usuarios") // Reemplaza con el nombre de tu tabla
+          .update({ password: password1 }) // Suponiendo que ya tienes el hash del password
+          .eq("id", user.id); // Asegúrate de que el campo id sea correcto
+
+        if (error) throw error;
+        console.log("Contraseña actualizada:", data);
+      } else {
+        setError("No se encontró el usuario.");
+      }
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,6 +64,8 @@ const ForgotPasswordForm: FC = () => {
         </h2>
 
         <form onSubmit={handleSubmit}>
+          {error && <div className="text-red-500 mb-4">{error}</div>}
+
           <div className="mb-4 relative">
             <label htmlFor="password1" className="sr-only">
               Nueva contraseña
@@ -89,11 +116,13 @@ const ForgotPasswordForm: FC = () => {
               )}
             </span>
           </div>
+
           <button
             type="submit"
+            disabled={loading}
             className="w-full py-2 text-lg font-semibold text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
           >
-            Enviar
+            {loading ? "Cargando..." : "Enviar"}
           </button>
         </form>
       </div>
