@@ -1,100 +1,83 @@
 "use client";
+import { FC, useState } from "react";
 
-import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-interface ResetPasswordFormProps {
-  email: string;
-}
-
-const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ email }) => {
+const ForgotPasswordForm: FC = () => {
+  const [passwordType1, setPasswordType1] = useState("text");
+  const [passwordType2, setPasswordType2] = useState("text");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
-  const [passwordType1, setPasswordType1] = useState("password");
-  const [passwordType2, setPasswordType2] = useState("password");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const handleInputChange1 = (value: string) => {
     setPassword1(value);
+    if (value) {
+      setPasswordType1("password");
+    } else {
+      setPasswordType1("text");
+    }
   };
 
   const handleInputChange2 = (value: string) => {
     setPassword2(value);
-  };
-
-  const togglePasswordVisibility1 = () => {
-    setPasswordType1(passwordType1 === "password" ? "text" : "password");
-  };
-
-  const togglePasswordVisibility2 = () => {
-    setPasswordType2(passwordType2 === "password" ? "text" : "password");
+    if (value) {
+      setPasswordType2("password");
+    } else {
+      setPasswordType2("text");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password1 !== password2) {
-      setError("Las contraseñas no coinciden");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from("usuarios")
-        .update({ password: password1 })
-        .eq("email", email);
-
-      if (error) {
-        setError("Error al actualizar la contraseña");
-      } else {
-        setError(null);
-        // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
-      }
-    } catch (err) {
-      console.error("Error al actualizar la contraseña:", err);
-      setError("Ocurrió un error inesperado");
-    } finally {
-      setLoading(false);
-    }
+    console.log("Nueva contraseña:", password1);
+    console.log("Repetir contraseña:", password2);
+    // Aquí puedes agregar la lógica para enviar los datos al backend
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="password1">Nueva contraseña</label>
-        <input
-          type={passwordType1}
-          id="password1"
-          value={password1}
-          onChange={(e) => handleInputChange1(e.target.value)}
-        />
-        <button type="button" onClick={togglePasswordVisibility1}>
-          {passwordType1 === "password" ? "Mostrar" : "Ocultar"}
-        </button>
+    <div className="flex items-center justify-center min-h-screen bg-[url('https://www.magic4walls.com/wp-content/uploads/2014/01/texture-blue-fonchik-simple-dark-colors-glow-background.jpg')] bg-cover">
+      <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
+        <h2 className="text-center text-white text-2xl font-semibold mb-6">
+          Ingrese su nueva contraseña
+        </h2>
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="password1" className="sr-only">
+              Nueva contraseña
+            </label>
+            <input
+              id="password1"
+              type={passwordType1}
+              value={password1}
+              onChange={(e) => handleInputChange1(e.target.value)}
+              placeholder="Nueva contraseña"
+              className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password2" className="sr-only">
+              Repita contraseña
+            </label>
+            <input
+              id="password2"
+              type={passwordType2}
+              value={password2}
+              onChange={(e) => handleInputChange2(e.target.value)}
+              placeholder="Repita contraseña"
+              className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full py-2 text-lg font-semibold text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
+          >
+            Enviar
+          </button>
+        </form>
       </div>
-      <div>
-        <label htmlFor="password2">Confirmar nueva contraseña</label>
-        <input
-          type={passwordType2}
-          id="password2"
-          value={password2}
-          onChange={(e) => handleInputChange2(e.target.value)}
-        />
-        <button type="button" onClick={togglePasswordVisibility2}>
-          {passwordType2 === "password" ? "Mostrar" : "Ocultar"}
-        </button>
-      </div>
-      {error && <p>{error}</p>}
-      <button type="submit" disabled={loading}>
-        {loading ? "Actualizando..." : "Actualizar contraseña"}
-      </button>
-    </form>
+    </div>
   );
 };
 
-export default ResetPasswordForm;
+export default ForgotPasswordForm;
