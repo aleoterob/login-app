@@ -1,12 +1,10 @@
+import { GetServerSideProps } from "next";
+
 interface ResetPasswordPageProps {
-  params: {
-    token: string; // El segmento dinámico `[token]`
-  };
+  token: string; // El segmento dinámico `[token]`
 }
 
-const ResetPasswordPage = ({ params }: ResetPasswordPageProps) => {
-  const { token } = params;
-
+const ResetPasswordPage = ({ token }: ResetPasswordPageProps) => {
   return (
     <div>
       <h1>Reset Password</h1>
@@ -16,9 +14,14 @@ const ResetPasswordPage = ({ params }: ResetPasswordPageProps) => {
   );
 };
 
-export async function generateStaticParams() {
-  // Si usas generación estática, puedes definir algunos ejemplos de tokens (solo para desarrollo)
-  return [{ token: "exampleToken" }];
-}
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { token } = context.params as { token: string };
+
+  return {
+    props: {
+      token,
+    },
+  };
+};
 
 export default ResetPasswordPage;
