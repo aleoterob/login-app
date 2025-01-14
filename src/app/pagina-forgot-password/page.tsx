@@ -1,6 +1,11 @@
+// pages/reset-password.tsx
+import { useState } from "react";
 import ForgotPasswordForm from "../components/ForgotPasswordForm";
+import ResetPasswordForm from "../components/ResetPasswordForm";
 
 const ForgotPasswordPage = () => {
+  const [email, setEmail] = useState<string | null>(null);
+
   return (
     <div className="relative w-full h-screen">
       {/* Imagen de fondo */}
@@ -9,9 +14,13 @@ const ForgotPasswordPage = () => {
         style={{ backgroundImage: "url('/images/back.jpg')" }}
       ></div>
 
-      {/* Formulario de Olvidó Contraseña */}
+      {/* Formulario de Olvidó Contraseña o Restablecer Contraseña */}
       <div className="relative z-10">
-        <ForgotPasswordForm />
+        {!email ? (
+          <ForgotPasswordForm setEmail={setEmail} />
+        ) : (
+          <ResetPasswordForm email={email} />
+        )}
       </div>
     </div>
   );

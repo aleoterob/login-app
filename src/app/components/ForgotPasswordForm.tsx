@@ -1,8 +1,16 @@
-"use client";
+// components/ForgotPasswordForm.tsx
 import { FC, useState } from "react";
 
-const ForgotPasswordForm: FC = () => {
-  const [email, setEmail] = useState("");
+interface ForgotPasswordFormProps {
+  setEmail: (email: string) => void;
+  setEmailSent: (sent: boolean) => void;
+}
+
+const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
+  setEmail,
+  setEmailSent,
+}) => {
+  const [emailState, setEmailState] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -14,11 +22,13 @@ const ForgotPasswordForm: FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: emailState }),
       });
 
       if (response.ok) {
         setMessage("¡Correo enviado! Revisa tu bandeja de entrada.");
+        setEmail(emailState); // Establecer el correo
+        setEmailSent(true); // Marcar como correo enviado
       } else {
         setMessage("Hubo un problema enviando el correo. Inténtalo de nuevo.");
       }
@@ -53,8 +63,8 @@ const ForgotPasswordForm: FC = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={emailState}
+                onChange={(e) => setEmailState(e.target.value)}
                 className="w-full px-3 py-2 bg-transparent border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
                 required
               />
