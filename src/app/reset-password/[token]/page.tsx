@@ -42,7 +42,7 @@ const ResetPasswordPage = () => {
       }}
     >
       <div className="relative z-10 flex justify-center items-center w-full h-full">
-        <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
+        <div className="w-[390px] bg-transparent backdrop-blur-sm rounded-lg shadow-lg p-6">
           {message && <p className="text-white text-center mb-4">{message}</p>}
 
           {/* Mostrar el correo desencriptado
