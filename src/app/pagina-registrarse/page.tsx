@@ -10,7 +10,7 @@ const SignUpPage = () => {
         autoPlay
         loop
         muted
-        src="/videos/video.mp4" // Ruta del video en la carpeta public
+        src="/videos/video-c.mp4" // Ruta del video en la carpeta public
       />
 
       {/* Formulario de registro */}

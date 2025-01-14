@@ -35,7 +35,7 @@ const ResetPasswordPage = () => {
         autoPlay
         loop
         muted
-        src="/videos/video.mp4" // Asegúrate de que el video esté en la carpeta public
+        src="/videos/video-c.mp4" // Asegúrate de que el video esté en la carpeta public
       />
 
       {/* Contenido de la página */}

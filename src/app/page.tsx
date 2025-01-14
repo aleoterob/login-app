@@ -13,7 +13,7 @@ const MyApp = () => {
           autoPlay
           loop
           muted
-          src="/videos/video.mp4" // Cambia esta URL por la de tu video
+          src="/videos/video-c.mp4" // Cambia esta URL por la de tu video
         />
         <div className="relative z-10">
           <LoginForm />
