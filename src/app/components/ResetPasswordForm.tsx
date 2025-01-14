@@ -1,8 +1,35 @@
 "use client";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importar los íconos
 
 const ForgotPasswordForm: FC = () => {
-  const handleSubmit = async () => {};
+  const [passwordType1, setPasswordType1] = useState("password");
+  const [passwordType2, setPasswordType2] = useState("password");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  const handleInputChange1 = (value: string) => {
+    setPassword1(value);
+  };
+
+  const handleInputChange2 = (value: string) => {
+    setPassword2(value);
+  };
+
+  const togglePasswordVisibility1 = () => {
+    setPasswordType1(passwordType1 === "password" ? "text" : "password");
+  };
+
+  const togglePasswordVisibility2 = () => {
+    setPasswordType2(passwordType2 === "password" ? "text" : "password");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Nueva contraseña:", password1);
+    console.log("Repetir contraseña:", password2);
+    // Aquí puedes agregar la lógica para enviar los datos al backend
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[url('https://www.magic4walls.com/wp-content/uploads/2014/01/texture-blue-fonchik-simple-dark-colors-glow-background.jpg')] bg-cover">
@@ -12,33 +39,55 @@ const ForgotPasswordForm: FC = () => {
         </h2>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="txtUser" className="sr-only">
-              Password
+          <div className="mb-4 relative">
+            <label htmlFor="password1" className="sr-only">
+              Nueva contraseña
             </label>
-            <div className="flex  flex-col justify-center items-center bg-white/20 rounded gap-4">
-              <span className="px-3 text-white">
-                <i className="glyphicon glyphicon-user"></i>
-              </span>
-              <input
-                id="txtUser"
-                type="password"
-                name="password"
-                placeholder="Password"
-                value="password"
-                className="w-full px-3 py-2 bg-transparent border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
-                required
-              />
-              <input
-                id="txtUser"
-                type="password"
-                name="password"
-                placeholder="Re enter password"
-                value="re-enrter-password"
-                className="w-full px-3 py-2 bg-transparent border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
-                required
-              />
-            </div>
+            <input
+              id="password1"
+              type={passwordType1}
+              value={password1}
+              onChange={(e) => handleInputChange1(e.target.value)}
+              placeholder="Nueva contraseña"
+              className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+              required
+            />
+            {/* Ícono para mostrar/ocultar contraseña */}
+            <span
+              onClick={togglePasswordVisibility1}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+            >
+              {passwordType1 === "password" ? (
+                <AiOutlineEyeInvisible className="text-white" />
+              ) : (
+                <AiOutlineEye className="text-white" />
+              )}
+            </span>
+          </div>
+          <div className="mb-4 relative">
+            <label htmlFor="password2" className="sr-only">
+              Repita contraseña
+            </label>
+            <input
+              id="password2"
+              type={passwordType2}
+              value={password2}
+              onChange={(e) => handleInputChange2(e.target.value)}
+              placeholder="Repita contraseña"
+              className="w-full px-3 py-2 bg-grisInput border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+              required
+            />
+            {/* Ícono para mostrar/ocultar contraseña */}
+            <span
+              onClick={togglePasswordVisibility2}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+            >
+              {passwordType2 === "password" ? (
+                <AiOutlineEyeInvisible className="text-white" />
+              ) : (
+                <AiOutlineEye className="text-white" />
+              )}
+            </span>
           </div>
           <button
             type="submit"
