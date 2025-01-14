@@ -19,15 +19,13 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
     e.preventDefault();
 
     try {
-      // Encriptar el correo antes de enviarlo
-      const encryptedEmail = encryptEmail(emailState);
-
+      // Enviar el correo tal como lo ingresa el usuario
       const response = await fetch("../api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: encryptedEmail }), // Enviar el correo encriptado
+        body: JSON.stringify({ email: emailState }), // Enviar el correo sin encriptar
       });
 
       if (response.ok) {
