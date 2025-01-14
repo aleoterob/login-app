@@ -28,7 +28,7 @@ const ResetPasswordPage = () => {
     <div
       className="relative w-full h-screen"
       style={{
-        backgroundImage: "url('/ruta/a/tu/imagen.jpg')", // Cambia esta ruta por la de tu imagen
+        backgroundImage: "url('/images/back.jpg')", // Cambia esta ruta por la de tu imagen
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
