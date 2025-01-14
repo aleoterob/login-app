@@ -1,22 +1,21 @@
 import { FC, useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import { login, logout } from "../store";
-import { useRouter } from "next/navigation"; // Asegúrate de que 'next/navigation' está correctamente importado
+import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
-import SignUpForm from "./SignUpForm"; // Asegúrate de importar el componente SignUpForm
-import { comparePassword } from "../lib/bcryptUtils"; // Importar la función de comparación de bcrypt
+import SignUpForm from "./SignUpForm";
+import { comparePassword } from "../lib/bcryptUtils";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importa los iconos
 
-// Configuración de Supabase (tu URL y anon key)
-const supabaseUrl = "https://ppukvfqirqaiwtohrbxh.supabase.co"; // Tu URL correcta
-const supabaseAnonKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwdWt2ZnFpcnFhaXd0b2hyYnhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY4MDE5NzgsImV4cCI6MjA1MjM3Nzk3OH0.UA-jmmfkKAAU21ZliTsiOBCyJrD65uNHzxxtlLqfCSE"; // Tu clave anon correcta
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 const LoginForm: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [showSignUp] = useState(false); // Estado para mostrar el formulario de registro
+  const [showSignUp] = useState(false);
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const router = useRouter();
@@ -30,28 +29,21 @@ const LoginForm: FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       const { data, error } = await supabase
         .from("usuarios")
         .select("*")
         .eq("email", email);
-
       if (error) {
         setErrorMessage("Error al comunicarse con el servidor.");
         return;
       }
-
       if (data && data.length > 0) {
-        // El usuario existe, ahora verificamos la contraseña
         const storedPassword = data[0].password;
-
-        // Verificamos si la contraseña ingresada coincide con la almacenada (encriptada)
         const isPasswordValid = await comparePassword(password, storedPassword);
-
         if (isPasswordValid) {
           dispatch(login());
-          setErrorMessage(null); // Limpiar cualquier mensaje de error
+          setErrorMessage(null);
         } else {
           setErrorMessage("Email o password incorrectos.");
         }
@@ -70,12 +62,10 @@ const LoginForm: FC = () => {
   };
 
   const handleSignUpClick = () => {
-    // Redirigir a la página de registro
-    router.push("../pagina-registrarse"); // Usa router.push para redirigir
+    router.push("../pagina-registrarse");
   };
 
   const handleForgotPasswordClick = () => {
-    // Redirigir a la página de restablecimiento de contraseña
     router.push("/pagina-forgot-password");
   };
 
@@ -83,7 +73,6 @@ const LoginForm: FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-[url('https://www.magic4walls.com/wp-content/uploads/2014/01/texture-blue-fonchik-simple-dark-colors-glow-background.jpg')] bg-cover">
       <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
         {showSignUp ? (
-          // Si se está mostrando el formulario de registro, renderizar SignUpForm
           <SignUpForm />
         ) : (
           <>
@@ -135,13 +124,11 @@ const LoginForm: FC = () => {
                       onClick={() => setShowPassword(!showPassword)}
                       className="px-3 text-white focus:outline-none"
                     >
-                      <i
-                        className={`glyphicon ${
-                          showPassword
-                            ? "glyphicon-eye-close"
-                            : "glyphicon-eye-open"
-                        }`}
-                      ></i>
+                      {showPassword ? (
+                        <AiOutlineEyeInvisible size={20} />
+                      ) : (
+                        <AiOutlineEye size={20} />
+                      )}
                     </button>
                   </div>
                 </div>

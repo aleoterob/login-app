@@ -4,11 +4,10 @@ import { FC, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import bcrypt from "bcryptjs";
 import { useRouter } from "next/navigation";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importa los iconos
 
-// Configuración de Supabase (tu URL y anon key)
-const supabaseUrl = "https://ppukvfqirqaiwtohrbxh.supabase.co"; // Tu URL correcta
-const supabaseAnonKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwdWt2ZnFpcnFhaXd0b2hyYnhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY4MDE5NzgsImV4cCI6MjA1MjM3Nzk3OH0.UA-jmmfkKAAU21ZliTsiOBCyJrD65uNHzxxtlLqfCSE"; // Tu clave anon correcta
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -17,13 +16,13 @@ const SignUpForm: FC = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar la contraseña
 
-  const router = useRouter(); // Utiliza useRouter para redirigir
+  const router = useRouter();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Encriptar el password
     const hashedPassword = bcrypt.hashSync(password, 10);
 
     try {
@@ -43,10 +42,9 @@ const SignUpForm: FC = () => {
       setSuccessMessage("Usuario registrado con éxito.");
       setEmail("");
       setPassword("");
-      setErrorMessage(null); // Limpiar cualquier mensaje de error
+      setErrorMessage(null);
 
-      // Redirigir a la página deseada después del registro exitoso
-      router.push("/pagina-registrado"); // Cambia "/pagina-deseada" por la ruta de la página a la que quieras redirigir
+      router.push("/pagina-registrado");
     } catch (err) {
       console.error("Error al registrar:", err);
       setErrorMessage("Ocurrió un error inesperado.");
@@ -91,19 +89,31 @@ const SignUpForm: FC = () => {
               </span>
               <input
                 id="txtPassword"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 bg-transparent border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="px-3 text-white focus:outline-none"
+              >
+                {showPassword ? (
+                  <AiOutlineEyeInvisible size={20} />
+                ) : (
+                  <AiOutlineEye size={20} />
+                )}
+              </button>
             </div>
           </div>
 
           {errorMessage && (
             <div className="text-red-500 text-center mb-4">{errorMessage}</div>
           )}
+
           {successMessage && (
             <div className="text-green-500 text-center mb-4">
               {successMessage}
@@ -114,7 +124,7 @@ const SignUpForm: FC = () => {
             type="submit"
             className="w-full py-2 text-lg font-semibold text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
           >
-            Registrar
+            <i className="fa fa-user-plus"></i> Registrarse
           </button>
         </form>
       </div>
