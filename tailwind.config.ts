@@ -12,6 +12,7 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         grisInput: "#4F4F4F",
+        azulJuztina: "#0A101A",
       },
     },
   },

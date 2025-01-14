@@ -25,16 +25,16 @@ const ResetPasswordPage = () => {
   }, [pathname]);
 
   return (
-    <div className="relative w-full h-screen">
-      {/* Video de fondo */}
-      <video
-        className="absolute top-0 left-0 w-full h-full object-cover"
-        autoPlay
-        loop
-        muted
-        src="/videos/video-c.mp4" // Ruta del video dentro de la carpeta public
-      />
-      {/* Contenido de la página  */}
+    <div
+      className="relative w-full h-screen"
+      style={{
+        backgroundImage: "url('/ruta/a/tu/imagen.jpg')", // Cambia esta ruta por la de tu imagen
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Contenido de la página */}
       <div className="relative z-10 flex justify-center items-center w-full h-full">
         <ResetPasswordForm />
       </div>

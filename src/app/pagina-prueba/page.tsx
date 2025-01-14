@@ -16,7 +16,6 @@ const ResetPasswordPage = () => {
       setToken(tokenFromPath);
 
       // Aquí puedes agregar la lógica para validar el token con el backend
-      // Por ahora, asumimos que el token es válido
       setIsValidToken(true);
     }
 
@@ -27,7 +26,22 @@ const ResetPasswordPage = () => {
     }
   }, [pathname]);
 
-  return <ResetPasswordForm />;
+  return (
+    <div
+      className="relative w-full h-screen"
+      style={{
+        backgroundImage: "url('/images/back.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Contenido de la página */}
+      <div className="relative z-10 flex flex-col justify-center items-center min-h-screen bg-white/50 p-8">
+        <ResetPasswordForm />
+      </div>
+    </div>
+  );
 };
 
 export default ResetPasswordPage;

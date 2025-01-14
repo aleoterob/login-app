@@ -7,14 +7,11 @@ import LoginForm from "../app/components/LoginForm";
 const MyApp = () => {
   return (
     <Provider store={store}>
-      <div className="relative w-full h-screen">
-        <video
-          className="absolute top-0 left-0 w-full h-full object-cover"
-          autoPlay
-          loop
-          muted
-          src="/videos/video-c.mp4" // Cambia esta URL por la de tu video
-        />
+      <div className="flex flex-col items-start sm:items-center pb-8 w-90% sm:w-90% md:w-90% lg:w-90 xl:w-90 2xl:w-1240">
+        <div
+          className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/back.jpg')" }}
+        ></div>
         <div className="relative z-10">
           <LoginForm />
         </div>
