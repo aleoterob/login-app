@@ -1,7 +1,7 @@
 // components/ForgotPasswordForm.tsx
 "use client";
 import { FC, useState } from "react";
-import { encryptEmail } from "../lib/bcryptUtils"; // Asegúrate de importar la función
+// import { encryptEmail } from "../lib/bcryptUtils"; // Asegúrate de importar la función
 
 interface ForgotPasswordFormProps {
   setEmail: (email: string) => void;
