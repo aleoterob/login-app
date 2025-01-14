@@ -1,9 +1,5 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-interface ResetPasswordPageProps {
-  token: string; // El segmento dinámico `[token]`
-}
 
 const ResetPasswordPage = () => {
   const router = useRouter();
