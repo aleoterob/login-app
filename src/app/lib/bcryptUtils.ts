@@ -1,12 +1,13 @@
 import crypto from "crypto";
+import bcrypt from "bcryptjs";
 
-// Asegúrate de que las variables de entorno estén definidas
+// Asegúrate de que las variables de entorno no sean undefined
 const AES_KEY = process.env.AES_KEY;
 const AES_IV = process.env.AES_IV;
 
 if (!AES_KEY || !AES_IV) {
   throw new Error(
-    "Las variables de entorno AES_KEY y AES_IV deben estar definidas."
+    "Las claves AES_KEY o AES_IV no están definidas en las variables de entorno"
   );
 }
 
@@ -56,4 +57,12 @@ export const decryptEmail = (encryptedEmail: string): string | null => {
   let decrypted = decipher.update(encryptedEmail, "hex", "utf8");
   decrypted += decipher.final("utf8");
   return decrypted || null;
+};
+
+// Función para comparar contraseñas usando bcrypt
+export const comparePassword = async (
+  password: string,
+  hashedPassword: string
+): Promise<boolean> => {
+  return await bcrypt.compare(password, hashedPassword);
 };
