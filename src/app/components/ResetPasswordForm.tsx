@@ -89,7 +89,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ email }) => {
       </div>
       {error && <p>{error}</p>}
       <button type="submit" disabled={loading}>
-        {loading ? "Actualizando..." : "Actualizar contraseña"}
+        {loading ? "Actualizando...." : "Actualizar contraseña"}
       </button>
     </form>
   );
