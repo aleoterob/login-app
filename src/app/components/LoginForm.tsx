@@ -14,7 +14,7 @@ const LoginForm: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Corregido
   const [showSignUp] = useState(false);
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
@@ -79,7 +79,10 @@ const LoginForm: FC = () => {
             <h2 className="text-center text-white text-2xl font-semibold mb-6">
               - Please Login -
             </h2>
-
+            {errorMessage && (
+              <p className="text-red-500 text-center">{errorMessage}</p>
+            )}{" "}
+            {/* Mensaje de error */}
             {!isAuthenticated && (
               <form onSubmit={handleLogin}>
                 <div className="mb-4">
@@ -141,7 +144,6 @@ const LoginForm: FC = () => {
                 </button>
               </form>
             )}
-
             {isAuthenticated && (
               <div>
                 <button
@@ -153,7 +155,6 @@ const LoginForm: FC = () => {
                 </button>
               </div>
             )}
-
             <div className="flex items-center justify-between mt-4 text-white text-sm">
               <label className="flex items-center">
                 <input
@@ -170,7 +171,6 @@ const LoginForm: FC = () => {
                 Forgot Password?
               </button>
             </div>
-
             <div className="text-center mt-4">
               <button
                 onClick={handleSignUpClick}
