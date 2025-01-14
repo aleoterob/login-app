@@ -16,7 +16,7 @@ const ForgotPasswordForm: FC = () => {
             <label htmlFor="txtUser" className="sr-only">
               Password
             </label>
-            <div className="flex  flex-col justify-center items-center bg-white/20 rounded">
+            <div className="flex  flex-col justify-center items-center bg-white/20 rounded gap-4">
               <span className="px-3 text-white">
                 <i className="glyphicon glyphicon-user"></i>
               </span>
