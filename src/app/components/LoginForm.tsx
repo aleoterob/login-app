@@ -133,12 +133,6 @@ const LoginForm: FC = () => {
                   </div>
                 </div>
 
-                {errorMessage && (
-                  <div className="text-red-500 text-center mb-4">
-                    {errorMessage}
-                  </div>
-                )}
-
                 <button
                   type="submit"
                   className="w-full py-2 text-lg font-semibold text-white bg-verdeAle/50 hover:bg-verdeAle/75 rounded shadow"
