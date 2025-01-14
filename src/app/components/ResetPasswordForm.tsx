@@ -1,7 +1,7 @@
 "use client";
 import { FC, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importar los íconos
-import supabase from "../supabaseClient"; // Importar el cliente de supabase
+import supabase from "../lib/supabaseClient"; // Importar el cliente de supabase
 
 const ForgotPasswordForm: FC = () => {
   const [passwordType1, setPasswordType1] = useState("password");
