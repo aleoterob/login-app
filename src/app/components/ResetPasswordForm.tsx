@@ -38,8 +38,17 @@ const ResetPasswordForm = () => {
 
     setLoading(true);
     try {
-      // Actualizar el password en Supabase
-      const user = supabase.auth.user(); // Obtener usuario actual (asumimos que el usuario está autenticado)
+      // Obtener usuario actual (asumimos que el usuario está autenticado)
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError) {
+        setError("Error al obtener el usuario");
+        setLoading(false);
+        return;
+      }
+
       if (user) {
         const { error } = await supabase
           .from("usuarios") // Reemplaza con el nombre de tu tabla
