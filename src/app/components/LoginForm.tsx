@@ -89,7 +89,7 @@ const LoginForm: FC = () => {
               - Please Login -
             </h2>
             {errorMessage && (
-              <p className="text-red-500 text-center">{errorMessage}</p>
+              <p className="text-white text-center">{errorMessage}</p>
             )}
             {!isAuthenticated && (
               <form onSubmit={handleLogin}>

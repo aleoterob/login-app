@@ -25,13 +25,14 @@ const SignUpForm: FC = () => {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validación de la dirección de correo electrónico
-    if (!validateEmailFormat(email)) {
-      setErrorMessage("Please enter a valid email address.");
+    // Primero, validación de la dirección de correo electrónico
+    const emailValidation = validateEmailFormat(email);
+    if (!emailValidation.isValid) {
+      setErrorMessage(emailValidation.message);
       return;
     }
 
-    // Validación de la contraseña
+    // Luego, validación de la contraseña
     const passwordValidation = validatePassword(password);
     if (!passwordValidation.isValid) {
       setErrorMessage(passwordValidation.message);

@@ -1,5 +1,19 @@
 // emailValidation.ts
-export const validateEmailFormat = (email: string): boolean => {
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  return emailRegex.test(email);
+export const validateEmailFormat = (email: string) => {
+  // Validación de si el email está vacío
+  if (!email.trim()) {
+    return {
+      isValid: false,
+      message: "Email cannot be empty.",
+    };
+  }
+
+  // Expresión regular para verificar el formato del correo electrónico
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isValid = emailRegex.test(email);
+
+  return {
+    isValid,
+    message: isValid ? "" : "Invalid email format",
+  };
 };

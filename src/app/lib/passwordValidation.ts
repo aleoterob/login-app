@@ -17,7 +17,7 @@ export const validatePassword = (password: string): ValidationResult => {
     return {
       isValid: false,
       message:
-        "The password must contain at least 6 characters, an uppercase letter, a number, and a special character.",
+        "The password must contain at least 6 characters, an uppercase letter, a number,  a special character and can't be empty.",
     };
   }
 
