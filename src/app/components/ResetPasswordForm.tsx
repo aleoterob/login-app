@@ -1,9 +1,10 @@
 "use client";
 import { FC, useState } from "react";
-import { useRouter } from "next/navigation"; // Importa useRouter para la redirección
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importa los íconos
-import supabase from "../../app/lib/supabaseClient"; // Importa el cliente de Supabase
-import { encryptPassword } from "../../app/lib/bcryptUtils"; // Importa la función para cifrar la contraseña
+import { useRouter } from "next/navigation";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import supabase from "../../app/lib/supabaseClient";
+import { encryptPassword } from "../../app/lib/bcryptUtils";
+import { validatePassword } from "../../app/lib/passwordValidation"; // Importar la función de validación
 
 const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
   decryptedEmail,
@@ -14,9 +15,9 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [isPasswordReset, setIsPasswordReset] = useState(false); // Estado para saber si la contraseña fue reseteada
+  const [isPasswordReset, setIsPasswordReset] = useState(false);
 
-  const router = useRouter(); // Inicializa el hook useRouter para redirigir
+  const router = useRouter();
 
   const togglePasswordType1 = () =>
     setPasswordType1((prev) => (prev === "password" ? "text" : "password"));
@@ -26,6 +27,13 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validar las contraseñas antes de proceder
+    const validationError = validatePassword(password1);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
     if (password1 !== password2) {
       setError("Passwords do not match.");
@@ -39,19 +47,19 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
     const { error } = await supabase
       .from("usuarios")
       .update({ password: encryptedPassword })
-      .eq("email", decryptedEmail); // Busca por el correo desencriptado
+      .eq("email", decryptedEmail);
 
     if (error) {
       setError("Error updating the password: " + error.message);
     } else {
-      setMessage("Password successfully updated..");
-      setIsPasswordReset(true); // Cambia el estado para mostrar el botón de logearse
+      setMessage("Password successfully updated.");
+      setIsPasswordReset(true);
     }
   };
 
   // Función para redirigir a la home
   const handleRedirect = () => {
-    router.push("/"); // Redirige a la página principal
+    router.push("/");
   };
 
   return (
@@ -93,7 +101,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
             </div>
             <div className="mb-4 relative">
               <label htmlFor="password2" className="sr-only">
-                Re enter password
+                Re-enter password
               </label>
               <input
                 id="password2"
@@ -125,7 +133,6 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
           </form>
         )}
 
-        {/* Botón para redirigir a la home, aparece solo si la contraseña fue reseteada */}
         {isPasswordReset && (
           <button
             onClick={handleRedirect}

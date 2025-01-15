@@ -6,6 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 import SignUpForm from "./SignUpForm";
 import { comparePassword } from "../lib/bcryptUtils";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importa los iconos
+import { validateEmailFormat } from "../lib/emailValidation"; // Importa la validación de email
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -29,6 +30,14 @@ const LoginForm: FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validación de email
+    const emailValidation = validateEmailFormat(email);
+    if (!emailValidation.isValid) {
+      setErrorMessage(emailValidation.message);
+      return;
+    }
+
     try {
       const { data, error } = await supabase
         .from("usuarios")
@@ -52,7 +61,7 @@ const LoginForm: FC = () => {
       }
     } catch (err) {
       console.error("Error al iniciar sesión:", err);
-      setErrorMessage("Inexpected error");
+      setErrorMessage("Unexpected error");
     }
   };
 
@@ -81,8 +90,7 @@ const LoginForm: FC = () => {
             </h2>
             {errorMessage && (
               <p className="text-red-500 text-center">{errorMessage}</p>
-            )}{" "}
-            {/* Mensaje de error */}
+            )}
             {!isAuthenticated && (
               <form onSubmit={handleLogin}>
                 <div className="mb-4">

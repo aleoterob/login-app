@@ -5,6 +5,8 @@ import { createClient } from "@supabase/supabase-js";
 import bcrypt from "bcryptjs";
 import { useRouter } from "next/navigation";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importa los iconos
+import { validatePassword } from "../lib/passwordValidation"; // Importa la validación de contraseña
+import { validateEmailFormat } from "../lib/emailValidation"; // Importa la validación de correo electrónico
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -22,6 +24,19 @@ const SignUpForm: FC = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validación de la dirección de correo electrónico
+    if (!validateEmailFormat(email)) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    // Validación de la contraseña
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+      setErrorMessage(passwordValidation.message);
+      return;
+    }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
 
@@ -111,7 +126,7 @@ const SignUpForm: FC = () => {
           </div>
 
           {errorMessage && (
-            <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+            <div className="text-white mb-4">{errorMessage}</div>
           )}
 
           {successMessage && (
