@@ -1,14 +1,15 @@
 "use client";
 import { FC, useState } from "react";
 import { useRouter } from "next/navigation"; // Importa useRouter para la redirección
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Importa los íconos
 import supabase from "../../app/lib/supabaseClient"; // Importa el cliente de Supabase
 import { encryptPassword } from "../../app/lib/bcryptUtils"; // Importa la función para cifrar la contraseña
 
 const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
   decryptedEmail,
 }) => {
-  const [passwordType1, setPasswordType1] = useState("text");
-  const [passwordType2, setPasswordType2] = useState("text");
+  const [passwordType1, setPasswordType1] = useState("password");
+  const [passwordType2, setPasswordType2] = useState("password");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -17,23 +18,11 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
 
   const router = useRouter(); // Inicializa el hook useRouter para redirigir
 
-  const handleInputChange1 = (value: string) => {
-    setPassword1(value);
-    if (value) {
-      setPasswordType1("password");
-    } else {
-      setPasswordType1("text");
-    }
-  };
+  const togglePasswordType1 = () =>
+    setPasswordType1((prev) => (prev === "password" ? "text" : "password"));
 
-  const handleInputChange2 = (value: string) => {
-    setPassword2(value);
-    if (value) {
-      setPasswordType2("password");
-    } else {
-      setPasswordType2("text");
-    }
-  };
+  const togglePasswordType2 = () =>
+    setPasswordType2((prev) => (prev === "password" ? "text" : "password"));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,7 +66,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
 
         {!isPasswordReset && (
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+            <div className="mb-4 relative">
               <label htmlFor="password1" className="sr-only">
                 Nueva contraseña
               </label>
@@ -85,13 +74,24 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
                 id="password1"
                 type={passwordType1}
                 value={password1}
-                onChange={(e) => handleInputChange1(e.target.value)}
+                onChange={(e) => setPassword1(e.target.value)}
                 placeholder="Nueva contraseña"
                 className="w-full px-3 py-2 bg-azulJuztina/10 border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
                 required
               />
+              <button
+                type="button"
+                onClick={togglePasswordType1}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white focus:outline-none"
+              >
+                {passwordType1 === "password" ? (
+                  <AiOutlineEyeInvisible size={20} />
+                ) : (
+                  <AiOutlineEye size={20} />
+                )}
+              </button>
             </div>
-            <div className="mb-4">
+            <div className="mb-4 relative">
               <label htmlFor="password2" className="sr-only">
                 Repita contraseña
               </label>
@@ -99,11 +99,22 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
                 id="password2"
                 type={passwordType2}
                 value={password2}
-                onChange={(e) => handleInputChange2(e.target.value)}
+                onChange={(e) => setPassword2(e.target.value)}
                 placeholder="Repita contraseña"
-                className="w-full px-3 py-2  bg-azulJuztina/10 border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
+                className="w-full px-3 py-2 bg-azulJuztina/10 border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
                 required
               />
+              <button
+                type="button"
+                onClick={togglePasswordType2}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white focus:outline-none"
+              >
+                {passwordType2 === "password" ? (
+                  <AiOutlineEyeInvisible size={20} />
+                ) : (
+                  <AiOutlineEye size={20} />
+                )}
+              </button>
             </div>
             <button
               type="submit"
