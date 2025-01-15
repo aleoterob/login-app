@@ -14,7 +14,7 @@ const PaginaLogeado = () => {
     >
       {/* Contenido de la página */}
       <div className="relative z-10 flex flex-col justify-center items-center min-h-screen gap-8">
-        <p className="text-6xl">Te logeaste correctamente</p>
+        <p className="text-6xl">You logged in successfully.</p>
         <BotonDeslogear />
       </div>
     </div>

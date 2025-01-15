@@ -34,12 +34,12 @@ const SignUpForm: FC = () => {
       ]);
 
       if (error) {
-        setErrorMessage("Error al registrar el usuario.");
+        setErrorMessage("User register error.");
         console.error(error);
         return;
       }
 
-      setSuccessMessage("Usuario registrado con éxito.");
+      setSuccessMessage("User succesfully registered.");
       setEmail("");
       setPassword("");
       setErrorMessage(null);
@@ -47,7 +47,7 @@ const SignUpForm: FC = () => {
       router.push("/pagina-registrado");
     } catch (err) {
       console.error("Error al registrar:", err);
-      setErrorMessage("Ocurrió un error inesperado.");
+      setErrorMessage("Unexpected error.");
     }
   };
 
@@ -55,7 +55,7 @@ const SignUpForm: FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-[url('https://www.magic4walls.com/wp-content/uploads/2014/01/texture-blue-fonchik-simple-dark-colors-glow-background.jpg')] bg-cover">
       <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
         <h2 className="text-center text-white text-2xl font-semibold mb-6">
-          - Registro de Usuario -
+          - User register -
         </h2>
 
         <form onSubmit={handleSignUp}>
@@ -124,7 +124,7 @@ const SignUpForm: FC = () => {
             type="submit"
             className="w-full py-2 text-lg font-semibold text-white bg-verdeAle/50 hover:bg-verdeAle/75 rounded shadow"
           >
-            <i className="fa fa-user-plus"></i> Registrarse
+            <i className="fa fa-user-plus"></i> Register
           </button>
         </form>
       </div>

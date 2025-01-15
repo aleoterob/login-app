@@ -35,7 +35,7 @@ const LoginForm: FC = () => {
         .select("*")
         .eq("email", email);
       if (error) {
-        setErrorMessage("Error al comunicarse con el servidor.");
+        setErrorMessage("Server error.");
         return;
       }
       if (data && data.length > 0) {
@@ -45,14 +45,14 @@ const LoginForm: FC = () => {
           dispatch(login());
           setErrorMessage(null);
         } else {
-          setErrorMessage("Email o password incorrectos.");
+          setErrorMessage("Wrong Email or Password");
         }
       } else {
-        setErrorMessage("Email o password incorrectos.");
+        setErrorMessage("Wrong Email or Password");
       }
     } catch (err) {
       console.error("Error al iniciar sesión:", err);
-      setErrorMessage("Ocurrió un error inesperado.");
+      setErrorMessage("Inexpected error");
     }
   };
 
@@ -176,7 +176,7 @@ const LoginForm: FC = () => {
                 onClick={handleSignUpClick}
                 className="text-white underline"
               >
-                Registrarse
+                Register
               </button>
             </div>
           </>

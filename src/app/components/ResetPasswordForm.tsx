@@ -28,7 +28,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
     e.preventDefault();
 
     if (password1 !== password2) {
-      setError("Las contraseñas no coinciden.");
+      setError("Passwords do not match.");
       return;
     }
 
@@ -42,9 +42,9 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
       .eq("email", decryptedEmail); // Busca por el correo desencriptado
 
     if (error) {
-      setError("Error al actualizar la contraseña: " + error.message);
+      setError("Error updating the password: " + error.message);
     } else {
-      setMessage("Contraseña actualizada correctamente.");
+      setMessage("Password successfully updated..");
       setIsPasswordReset(true); // Cambia el estado para mostrar el botón de logearse
     }
   };
@@ -58,7 +58,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
     <div className="flex items-center justify-center min-h-screen bg-[url('https://www.magic4walls.com/wp-content/uploads/2014/01/texture-blue-fonchik-simple-dark-colors-glow-background.jpg')] bg-cover">
       <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
         <h2 className="text-center text-white text-2xl font-semibold mb-6">
-          Ingrese su nueva contraseña
+          Enter your new password
         </h2>
 
         {error && <p className="text-red-500 text-center">{error}</p>}
@@ -68,7 +68,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
           <form onSubmit={handleSubmit}>
             <div className="mb-4 relative">
               <label htmlFor="password1" className="sr-only">
-                Nueva contraseña
+                New password
               </label>
               <input
                 id="password1"
@@ -93,7 +93,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
             </div>
             <div className="mb-4 relative">
               <label htmlFor="password2" className="sr-only">
-                Repita contraseña
+                Re enter password
               </label>
               <input
                 id="password2"
@@ -120,7 +120,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
               type="submit"
               className="w-full py-2 text-lg font-semibold text-white bg-verdeAle/50 hover:bg-verdeAle/75 rounded shadow"
             >
-              Enviar
+              Submit
             </button>
           </form>
         )}
@@ -131,7 +131,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
             onClick={handleRedirect}
             className="mt-4 w-full py-2 text-lg font-semibold text-white bg-verdeAle/50 hover:bg-verdeAle/75 rounded shadow"
           >
-            Logearse
+            Login
           </button>
         )}
       </div>

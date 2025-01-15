@@ -48,7 +48,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
     <div className="flex items-center justify-center min-h-screen bg-[url('https://www.magic4walls.com/wp-content/uploads/2014/01/texture-blue-fonchik-simple-dark-colors-glow-background.jpg')] bg-cover">
       <div className="w-[390px] bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6">
         <h2 className="text-center text-white text-2xl font-semibold mb-6">
-          Ingrese su email para resetear su password
+          Enter your email to reset your password.
         </h2>
 
         {message && (
@@ -80,7 +80,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
             type="submit"
             className="w-full py-2 text-lg font-semibold text-white bg-verdeAle/50 hover:bg-verdeAle/75 rounded shadow"
           >
-            Enviar
+            Subnit
           </button>
         </form>
       </div>

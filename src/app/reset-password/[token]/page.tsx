@@ -21,13 +21,13 @@ const ResetPasswordPage = () => {
       if (decrypted) {
         setDecryptedEmail(decrypted);
         setIsValidEmail(true);
-        setMessage("Correo recibido y desencriptado correctamente.");
+        setMessage("Email received and decrypted successfully.");
       } else {
         setIsValidEmail(false);
-        setMessage("Correo no válido o no se pudo desencriptar.");
+        setMessage("Invalid email or could not be decrypted.");
       }
     } else {
-      setMessage("No se proporcionó un correo.");
+      setMessage("No email provided.");
     }
   }, [pathname]);
 
