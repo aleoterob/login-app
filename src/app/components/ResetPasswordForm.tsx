@@ -69,7 +69,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
           Enter your new password
         </h2>
 
-        {error && <p className="text-red-500 text-center">{error}</p>}
+        {error && <p className="text-white text-center">{error}</p>}
         {message && <p className="text-green-500 text-center">{message}</p>}
 
         {!isPasswordReset && (
@@ -83,7 +83,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
                 type={passwordType1}
                 value={password1}
                 onChange={(e) => setPassword1(e.target.value)}
-                placeholder="Nueva contraseña"
+                placeholder="New password"
                 className="w-full px-3 py-2 bg-azulJuztina/10 border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
                 required
               />
@@ -108,7 +108,7 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
                 type={passwordType2}
                 value={password2}
                 onChange={(e) => setPassword2(e.target.value)}
-                placeholder="Repita contraseña"
+                placeholder="Re-enter password."
                 className="w-full px-3 py-2 bg-azulJuztina/10 border-none text-white placeholder-white/70 focus:ring-0 focus:outline-none"
                 required
               />

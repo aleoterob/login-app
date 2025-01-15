@@ -41,16 +41,18 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
       });
 
       if (response.ok) {
-        setMessage("¡Correo enviado! Revisa tu bandeja de entrada.");
+        setMessage("Email sent! Check your inbox.");
         setEmail(emailState); // Guardar el correo original en el estado
         setEmailSent(true); // Marcar como correo enviado
       } else {
         const errorData = await response.json();
-        setMessage(errorData.message || "Hubo un problema enviando el correo.");
+        setMessage(
+          errorData.message || "There was a problem sending the email."
+        );
       }
     } catch (error) {
       console.error("Error:", error);
-      setMessage("Ocurrió un error inesperado. Inténtalo más tarde.");
+      setMessage("An unexpected error occurred. Please try again later.");
     }
   };
 
@@ -66,7 +68,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({
         )}
 
         {emailError && (
-          <div className="text-center text-red-500 mb-4">{emailError}</div>
+          <div className="text-center text-white mb-4">{emailError}</div>
         )}
 
         <form onSubmit={handleSubmit}>
