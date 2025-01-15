@@ -7,11 +7,21 @@ import LoginForm from "../app/components/LoginForm";
 const MyApp = () => {
   return (
     <Provider store={store}>
-      <div className="flex flex-col items-start sm:items-center pb-8 w-90% sm:w-90% md:w-90% lg:w-90 xl:w-90 2xl:w-1240">
+      <div className="flex flex-col items-center justify-center h-screen w-full">
+        {/* Contenedor con la imagen de fondo, ajustado a la altura de la pantalla */}
         <div
-          className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center h-full"
           style={{ backgroundImage: "url('/images/back.jpg')" }}
-        ></div>
+        >
+          <h1 className="flex justify-center pt-20 text-6xl font-montserrat text-white">
+            Register and Login System
+          </h1>
+          <h1 className="flex justify-center pt-6 text-4xl font-montserrat text-white">
+            Next.js - Redux - Supabase Cloud DB - Tailwind
+          </h1>
+        </div>
+
+        {/* Contenedor del formulario */}
         <div className="relative z-10">
           <LoginForm />
         </div>
