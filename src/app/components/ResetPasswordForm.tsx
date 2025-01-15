@@ -30,8 +30,8 @@ const ResetPasswordForm: FC<{ decryptedEmail: string }> = ({
 
     // Validar las contraseñas antes de proceder
     const validationError = validatePassword(password1);
-    if (validationError) {
-      setError(validationError);
+    if (!validationError.isValid) {
+      setError(validationError.message); // Usar el mensaje de error del objeto de validación
       return;
     }
 
