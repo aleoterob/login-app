@@ -24,7 +24,7 @@ const MyApp = () => {
           </div>
 
           {/* Contenedor del formulario */}
-          <div className="relative z-10 pt-24">
+          <div className="flex z-10 pt-32">
             <LoginForm />
           </div>
         </div>
